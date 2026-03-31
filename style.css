@@ -21,6 +21,7 @@ body {
 /* Header */
 .site-header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   padding-top: 20px;
@@ -37,7 +38,20 @@ h1 {
 /* Logo */
 .logo {
   width: 140px;
-  margin-right: 15px;
+  margin-right: 0;
+  margin-bottom: 10px;
+}
+
+/* Use row layout for larger screens */
+@media (min-width: 600px) {
+  .site-header {
+    flex-direction: row;
+  }
+
+  .logo {
+    margin-right: 15px;
+    margin-bottom: 0;
+  }
 }
 
 /* Date‐picker & button row */
@@ -66,12 +80,13 @@ button {
 
 /* Button specific */
 button {
-  background-color: #d3d3d3;
-  color: black;
+  background-color: #E4002B;
+  color: white;
   cursor: pointer;
+  border: none;
 }
 button:hover {
-  background-color: #bfbfbf;
+  background-color: #b00022;
 }
 
 /* Stack horizontally on wider screens */
@@ -89,18 +104,28 @@ button:hover {
 
 /* Gallery flex container */
 .gallery {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 20px;
-  padding: 20px;
-  justify-content: center;
+  padding: 20px 0;
 }
 
-/* Gallery items */
-.gallery-item {
-  flex: 1 1 100%;  /* full width by default */
-  min-width: 280px;
-  max-width: 500px;
+/* Two cards across on medium screens */
+@media (min-width: 700px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Three cards across on larger screens */
+@media (min-width: 1000px) {
+  .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Small card for each image */
+.card {
   background: white;
   padding: 10px;
   border-radius: 8px;
@@ -108,34 +133,110 @@ button:hover {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 
-/* Three columns on wider screens */
-@media (min-width: 1000px) {
-  .gallery-item {
-    flex: 0 1 31%;
-  }
-}
-
-.gallery-item img {
+.card img {
   width: 100%;
-  height: 200px;
+  height: 180px;
   object-fit: cover;
   border-radius: 4px;
 }
 
-.gallery-item p {
-  margin-top: 10px;
-  padding: 5px;
+.card-content {
+  padding: 8px 4px 4px;
+}
+
+.card-content h2 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+
+.card-content .date {
   font-size: 14px;
+  color: #555;
+}
+
+.status-message {
+  text-align: center;
+  color: #444;
+  grid-column: 1 / -1;
+}
+
+/* Modal overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 999;
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-box {
+  background: #fff;
+  width: min(900px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.modal-image {
+  width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  margin-bottom: 6px;
+}
+
+.modal-date {
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.modal-description-row {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.modal-description {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.close-button {
+  width: auto;
+  font-size: 14px;
+  padding: 8px 10px;
+  align-self: flex-start;
+  background-color: #E4002B;
+  color: white;
+}
+
+.close-button:hover {
+  background-color: #b00022;
 }
 
 /* Placeholder content */
 .placeholder {
-  flex: 1 1 100%;
+  grid-column: 1 / -1;
   text-align: center;
   padding: 40px;
   color: #666;
+  max-width: 700px;
+  margin: 0 auto;
 }
 
 .placeholder-icon {
